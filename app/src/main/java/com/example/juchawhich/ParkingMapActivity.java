@@ -24,13 +24,13 @@ public class ParkingMapActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.car_action_menu, menu);
+        menuInflater.inflate(R.menu.parking_screen_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -48,6 +48,9 @@ public class ParkingMapActivity extends AppCompatActivity {
                 break;
             case R.id.car_info_menu:
                 Toast.makeText(getApplicationContext(), "차량정보", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.car_list:
+                Toast.makeText(getApplicationContext(), "차량 리스트", Toast.LENGTH_LONG).show();
                 break;
             case android.R.id.home:
                 //select back button

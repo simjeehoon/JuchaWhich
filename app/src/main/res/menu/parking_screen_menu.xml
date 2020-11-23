@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/auto_parking_menu"
         android:title="자동 주차" />
@@ -12,4 +13,9 @@
     <item
         android:id="@+id/car_info_menu"
         android:title="차량 정보" />
+    <item
+        android:id="@+id/car_list"
+        android:icon="@drawable/car_list_arrow"
+        android:title="Car List"
+        app:showAsAction="always" />
 </menu>

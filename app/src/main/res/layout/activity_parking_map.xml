@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left|center_vertical"
             android:textSize="20dp"
-            android:text="Title">
+            android:text="차량 정보">
         </TextView>
 
     </androidx.appcompat.widget.Toolbar>
