@@ -49,12 +49,8 @@ public class ParkingMapActivity extends AppCompatActivity {
             case R.id.car_info_menu:
                 Toast.makeText(getApplicationContext(), "차량정보", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.car_list:
-                Toast.makeText(getApplicationContext(), "차량 리스트", Toast.LENGTH_LONG).show();
-                break;
-            case android.R.id.home:
-                //select back button
-                finish();
+            case R.id.add_car:
+                Toast.makeText(getApplicationContext(), "차량 추가", Toast.LENGTH_LONG).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
