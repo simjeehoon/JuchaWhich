@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
@@ -20,8 +23,12 @@ public class ParkingMapActivity extends AppCompatActivity {
     ActionBar actionBar;
 
     LinearLayout slideMenu;
+    View darkBackground;
     Animation menuOpenAnim;
     Animation menuCloseAnim;
+    Animation onDarkAnim;
+    Animation offDarkAnim;
+    boolean isMenuOpen;
 
     private void setActionBar(){
         toolbar = findViewById(R.id.toolbar);
@@ -29,21 +36,69 @@ public class ParkingMapActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);
+        actionBar.setDisplayHomeAsUpEnabled(true);//좌측 버튼 설정
+        actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);//좌측 버튼 아이콘 설정
     }
 
     private void setSlideMenu(){
-        slideMenu = findViewById(R.id.slideMenuView);
-        menuOpenAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
-        menuCloseAnim = AnimationUtils.loadAnimation(this,R.anim.translate_right);
+        slideMenu = findViewById(R.id.slide_menu);
+        darkBackground = findViewById(R.id.dark_background);
+        slideMenu.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        darkBackground.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                closeRightMenu();
+                return true;
+            }
+        });
+        onDarkAnim = AnimationUtils.loadAnimation(this, R.anim.alpha_on);
+        onDarkAnim.setFillAfter(true);
+        offDarkAnim = AnimationUtils.loadAnimation(this, R.anim.alpha_off);
+        menuOpenAnim = AnimationUtils.loadAnimation(this, R.anim.menu_open_to_right);
+        menuOpenAnim.setFillAfter(true);
+        menuCloseAnim = AnimationUtils.loadAnimation(this,R.anim.menu_close_to_left);
+
+        Animation.AnimationListener animListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+        };
+        menuOpenAnim.setAnimationListener(animListener);
+        menuCloseAnim.setAnimationListener(animListener);
+    }
+
+
+    private void openRightMenu(){
+        darkBackground.setVisibility(View.VISIBLE);
+        slideMenu.setVisibility(View.VISIBLE);
+        slideMenu.startAnimation(menuOpenAnim);
+        darkBackground.startAnimation(onDarkAnim);
+    }
+
+    private void closeRightMenu(){
+        slideMenu.startAnimation(menuCloseAnim);
+        darkBackground.startAnimation(offDarkAnim);
+        darkBackground.setVisibility(View.GONE);
+        slideMenu.setVisibility(View.GONE);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_map);
-
+        setSlideMenu();
         setActionBar();
     }
 
@@ -71,6 +126,10 @@ public class ParkingMapActivity extends AppCompatActivity {
                 break;
             case R.id.add_car:
                 Toast.makeText(getApplicationContext(), "차량 추가", Toast.LENGTH_LONG).show();
+                break;
+            case android.R.id.home:
+                openRightMenu();
+                Toast.makeText(getApplicationContext(), "좌측 메뉴", Toast.LENGTH_LONG).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

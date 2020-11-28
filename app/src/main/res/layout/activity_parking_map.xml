@@ -5,6 +5,7 @@
 
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -99,17 +100,25 @@
 
     </LinearLayout>
     <!-- 슬라이드 메뉴 -->
+
+    <View
+        android:id="@+id/dark_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#000"
+        android:alpha="0.6">
+    </View>
     <LinearLayout
-        android:id="@+id/slideMenuView"
+        android:id="@+id/slide_menu"
         android:orientation="vertical"
         android:background="#6666FF"
         android:visibility="gone"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="contents"/>
     </LinearLayout>
-
 </FrameLayout>
