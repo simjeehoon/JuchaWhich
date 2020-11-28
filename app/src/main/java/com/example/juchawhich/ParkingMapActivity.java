@@ -52,7 +52,10 @@ public class ParkingMapActivity extends AppCompatActivity {
         darkBackground.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                closeRightMenu();
+                if(isMenuOpen) {
+                    closeRightMenu();
+                    isMenuOpen=false;
+                }
                 return true;
             }
         });
@@ -79,7 +82,6 @@ public class ParkingMapActivity extends AppCompatActivity {
         menuCloseAnim.setAnimationListener(animListener);
     }
 
-
     private void openRightMenu(){
         darkBackground.setVisibility(View.VISIBLE);
         slideMenu.setVisibility(View.VISIBLE);
@@ -92,6 +94,19 @@ public class ParkingMapActivity extends AppCompatActivity {
         darkBackground.startAnimation(offDarkAnim);
         darkBackground.setVisibility(View.GONE);
         slideMenu.setVisibility(View.GONE);
+    }
+
+    public void invitationList(View v){
+        Toast.makeText(getApplicationContext(), "초대목록", Toast.LENGTH_LONG).show();
+    }
+    public void friends(View v){
+        Toast.makeText(getApplicationContext(), "친구들", Toast.LENGTH_LONG).show();
+    }
+    public void myAccount(View v){
+        Toast.makeText(getApplicationContext(), "내계정", Toast.LENGTH_LONG).show();
+    }
+    public void setting(View v){
+        Toast.makeText(getApplicationContext(), "설정", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -113,7 +128,7 @@ public class ParkingMapActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
            case R.id.auto_parking_menu:
-               Toast.makeText(getApplicationContext(), "자동주차", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "자동주차", Toast.LENGTH_LONG).show();
                 break;
             case R.id.share_car_menu:
                 Toast.makeText(getApplicationContext(), "차량공유", Toast.LENGTH_LONG).show();
@@ -128,8 +143,10 @@ public class ParkingMapActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "차량 추가", Toast.LENGTH_LONG).show();
                 break;
             case android.R.id.home:
-                openRightMenu();
-                Toast.makeText(getApplicationContext(), "좌측 메뉴", Toast.LENGTH_LONG).show();
+                if(!isMenuOpen) {
+                    isMenuOpen = true;
+                    openRightMenu();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

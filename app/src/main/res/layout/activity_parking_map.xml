@@ -109,16 +109,94 @@
         android:background="#000"
         android:alpha="0.6">
     </View>
+
     <LinearLayout
         android:id="@+id/slide_menu"
         android:orientation="vertical"
-        android:background="#6666FF"
         android:visibility="gone"
+        android:background="#225"
         android:layout_width="250dp"
         android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="contents"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical"
+            android:background="#779"
+            android:paddingLeft="8dp"
+            android:gravity="bottom|left">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/avatar"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:text="사용자명"
+                android:layout_marginBottom="3dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:text="email@address.com"
+                android:layout_marginBottom="14dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            style="@style/RightScreenButtonStyle"
+            android:onClick="invitationList">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/mail_icon"/>
+            <TextView
+                android:layout_marginLeft="13dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="초대 목록"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/RightScreenButtonStyle"
+            android:onClick="friends">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/friend_icon"/>
+            <TextView
+                android:layout_marginLeft="13dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="친구"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/RightScreenButtonStyle"
+            android:onClick="myAccount">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/accounts_icon"/>
+            <TextView
+                android:layout_marginLeft="13dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 계정"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/RightScreenButtonStyle"
+            android:layout_marginTop="15dp"
+            android:onClick="setting">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon"/>
+            <TextView
+                android:layout_marginLeft="13dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="설정"/>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
