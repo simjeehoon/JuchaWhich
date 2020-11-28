@@ -32,13 +32,24 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <View
-                android:id="@+id/Map"
+            <LinearLayout
+                android:id="@+id/map_screen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#888"/>
+                android:orientation="vertical"
+                android:background="#456"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="맵 영역"/>
+
+            </LinearLayout>
+
 
             <LinearLayout
+                android:id="@+id/top_msg_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -46,7 +57,8 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:padding="12dp"
-                android:background="#DBB">
+                android:background="#DBB"
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -66,11 +78,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/bottom_msg_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:background="#FFF"
+                android:visibility="visible"
                 android:layout_gravity="bottom|center_horizontal">
 
                 <TextView
