@@ -9,22 +9,42 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class ParkingMapActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     ActionBar actionBar;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parking_map);
+
+    LinearLayout slideMenu;
+    Animation menuOpenAnim;
+    Animation menuCloseAnim;
+
+    private void setActionBar(){
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
-        //actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);
+    }
+
+    private void setSlideMenu(){
+        slideMenu = findViewById(R.id.slideMenuView);
+        menuOpenAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
+        menuCloseAnim = AnimationUtils.loadAnimation(this,R.anim.translate_right);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_parking_map);
+
+        setActionBar();
     }
 
     @Override
