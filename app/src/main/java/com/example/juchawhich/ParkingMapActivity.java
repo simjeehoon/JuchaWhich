@@ -1,13 +1,6 @@
 package com.example.juchawhich;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,31 +9,28 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.example.juchawhich.ConsumeTouchEvent;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class ParkingMapActivity extends AppCompatActivity {
-
     Toolbar toolbar;
     ActionBar actionBar;
+    ParkingMapSlideMenu parkingMapSlideMenu;
 
-    LinearLayout slideMenu;
-    View darkBackground;
     View topMsgBox;
     View bottomMsgBox;
     View mapScreen;
+
     Animation topMsgAppear;
     Animation topMsgDisappear;
     Animation bottomMsgAppear;
     Animation bottomMsgDisappear;
-    Animation menuOpenAnim;
-    Animation menuCloseAnim;
-    Animation onDarkAnim;
-    Animation offDarkAnim;
 
     boolean msgBoxAppear = true;
-    boolean isMenuOpen;
 
     private void setActionBar(){
         toolbar = findViewById(R.id.toolbar);
@@ -52,43 +42,6 @@ public class ParkingMapActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);//좌측 버튼 아이콘 설정
     }
 
-    private void setSlideMenu(){
-        slideMenu = findViewById(R.id.slide_menu);
-        darkBackground = findViewById(R.id.dark_background);
-        slideMenu.setOnTouchListener(new ConsumeTouchEvent());
-        darkBackground.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(isMenuOpen && event.getAction()==1) {
-                    closeRightMenu();
-                    isMenuOpen=false;
-                }
-                return true;
-            }
-        });
-        onDarkAnim = AnimationUtils.loadAnimation(this, R.anim.alpha_on);
-        onDarkAnim.setFillAfter(true);
-        offDarkAnim = AnimationUtils.loadAnimation(this, R.anim.alpha_off);
-        menuOpenAnim = AnimationUtils.loadAnimation(this, R.anim.menu_open_to_right);
-        menuOpenAnim.setFillAfter(true);
-        menuCloseAnim = AnimationUtils.loadAnimation(this,R.anim.menu_close_to_left);
-
-        Animation.AnimationListener animListener = new Animation.AnimationListener() {
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-        };
-        menuOpenAnim.setAnimationListener(animListener);
-        menuCloseAnim.setAnimationListener(animListener);
-    }
-
     class BoxTouchListener implements View.OnTouchListener{
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -98,6 +51,7 @@ public class ParkingMapActivity extends AppCompatActivity {
                 return false;
         }
     }
+
     private void setViewWhenCliked(){
         topMsgBox = findViewById(R.id.top_msg_box);
         topMsgBox.setOnTouchListener(new BoxTouchListener());
@@ -132,46 +86,15 @@ public class ParkingMapActivity extends AppCompatActivity {
         bottomMsgAppear = AnimationUtils.loadAnimation(this,R.anim.bottom_msgbox_appear);
         bottomMsgDisappear = AnimationUtils.loadAnimation(this,R.anim.bottom_msgbox_disappear);
         bottomMsgDisappear.setFillAfter(true);
-
-    }
-
-    private void openRightMenu(){
-        darkBackground.setVisibility(View.VISIBLE);
-        slideMenu.setVisibility(View.VISIBLE);
-        slideMenu.startAnimation(menuOpenAnim);
-        darkBackground.startAnimation(onDarkAnim);
-    }
-
-    private void closeRightMenu(){
-        slideMenu.startAnimation(menuCloseAnim);
-        darkBackground.startAnimation(offDarkAnim);
-        darkBackground.setVisibility(View.GONE);
-        slideMenu.setVisibility(View.GONE);
     }
 
 
-    public void touchedMap(View v){
-
-    }
-
-    public void invitationList(View v){
-        Toast.makeText(getApplicationContext(), "초대목록", Toast.LENGTH_SHORT).show();
-    }
-    public void friends(View v){
-        Toast.makeText(getApplicationContext(), "친구들", Toast.LENGTH_SHORT).show();
-    }
-    public void myAccount(View v){
-        Toast.makeText(getApplicationContext(), "내계정", Toast.LENGTH_SHORT).show();
-    }
-    public void setting(View v){
-        Toast.makeText(getApplicationContext(), "설정", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_map);
-        setSlideMenu();
+        parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         setActionBar();
         setViewWhenCliked();
     }
@@ -187,10 +110,9 @@ public class ParkingMapActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
-            if (isMenuOpen) {
+            if (parkingMapSlideMenu.isMenuOpen()) {
                 initTime = 0;
-                isMenuOpen = false;
-                closeRightMenu();
+                parkingMapSlideMenu.closeRightMenu();
             } else if(System.currentTimeMillis()-initTime > 3000){
                 Toast.makeText(getApplicationContext(), "종료하려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
                 initTime=System.currentTimeMillis();
@@ -220,9 +142,8 @@ public class ParkingMapActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "차량 추가", Toast.LENGTH_SHORT).show();
                 break;
             case android.R.id.home:
-                if(!isMenuOpen) {
-                    isMenuOpen = true;
-                    openRightMenu();
+                if(!parkingMapSlideMenu.isMenuOpen()) {
+                    parkingMapSlideMenu.openRightMenu();
                 }
                 break;
         }
