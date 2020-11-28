@@ -1,6 +1,8 @@
 package com.example.juchawhich;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +18,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class ParkingMapActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class ParkingMapActivity extends AppCompatActivity implements OnMapReadyCallback {
     Toolbar toolbar;
     ActionBar actionBar;
     ParkingMapSlideMenu parkingMapSlideMenu;
@@ -41,6 +50,7 @@ public class ParkingMapActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);//좌측 버튼 설정
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);//좌측 버튼 아이콘 설정
     }
+
 
     class BoxTouchListener implements View.OnTouchListener{
         @Override
@@ -88,6 +98,28 @@ public class ParkingMapActivity extends AppCompatActivity {
         bottomMsgDisappear.setFillAfter(true);
     }
 
+    private void setMapScreen(){
+        FragmentManager fragmentManager = getFragmentManager();
+        MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.google_map);
+        mapFragment.getMapAsync(this);
+
+        Log.d("googlemapLog", "단계1");
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng Seoul = new LatLng(37.56, 126.97);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(Seoul);
+        markerOptions.title("서울");
+        markerOptions.snippet("한국의 수도");
+        map.addMarker(markerOptions);
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(Seoul));
+        map.animateCamera(CameraUpdateFactory.zoomTo(10));
+        Log.d("googlemapLog", "단계2");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +127,8 @@ public class ParkingMapActivity extends AppCompatActivity {
         parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         setActionBar();
         setAnimationMapClicked();
+
+        setMapScreen();
     }
 
     @Override
