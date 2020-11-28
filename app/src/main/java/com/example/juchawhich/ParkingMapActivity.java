@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import com.example.juchawhich.ConsumeTouchEvent;
 
 public class ParkingMapActivity extends AppCompatActivity {
 
@@ -25,10 +27,19 @@ public class ParkingMapActivity extends AppCompatActivity {
 
     LinearLayout slideMenu;
     View darkBackground;
+    View topMsgBox;
+    View bottomMsgBox;
+    View mapScreen;
+    Animation topMsgAppear;
+    Animation topMsgDisappear;
+    Animation bottomMsgAppear;
+    Animation bottomMsgDisappear;
     Animation menuOpenAnim;
     Animation menuCloseAnim;
     Animation onDarkAnim;
     Animation offDarkAnim;
+
+    boolean msgBoxAppear = true;
     boolean isMenuOpen;
 
     private void setActionBar(){
@@ -44,16 +55,11 @@ public class ParkingMapActivity extends AppCompatActivity {
     private void setSlideMenu(){
         slideMenu = findViewById(R.id.slide_menu);
         darkBackground = findViewById(R.id.dark_background);
-        slideMenu.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        slideMenu.setOnTouchListener(new ConsumeTouchEvent());
         darkBackground.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(isMenuOpen) {
+                if(isMenuOpen && event.getAction()==1) {
                     closeRightMenu();
                     isMenuOpen=false;
                 }
@@ -83,6 +89,52 @@ public class ParkingMapActivity extends AppCompatActivity {
         menuCloseAnim.setAnimationListener(animListener);
     }
 
+    class BoxTouchListener implements View.OnTouchListener{
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if(msgBoxAppear)
+                return true;
+            else
+                return false;
+        }
+    }
+    private void setViewWhenCliked(){
+        topMsgBox = findViewById(R.id.top_msg_box);
+        topMsgBox.setOnTouchListener(new BoxTouchListener());
+        bottomMsgBox = findViewById(R.id.bottom_msg_box);
+        bottomMsgBox.setOnTouchListener(new BoxTouchListener());
+        mapScreen = findViewById(R.id.map_screen);
+        mapScreen.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == 1) {
+                    if (msgBoxAppear) {
+                        topMsgBox.startAnimation(topMsgDisappear);
+                        bottomMsgBox.startAnimation(bottomMsgDisappear);
+                        topMsgBox.setVisibility(View.GONE);
+                        bottomMsgBox.setVisibility(View.GONE);
+                        msgBoxAppear = false;
+                    } else {
+                        topMsgBox.setVisibility(View.VISIBLE);
+                        bottomMsgBox.setVisibility(View.VISIBLE);
+                        topMsgBox.startAnimation(topMsgAppear);
+                        bottomMsgBox.startAnimation(bottomMsgAppear);
+                        msgBoxAppear = true;
+                    }
+                }
+                return true;
+            }
+        });
+
+        topMsgAppear = AnimationUtils.loadAnimation(this,R.anim.top_msgbox_appear);
+        topMsgDisappear = AnimationUtils.loadAnimation(this,R.anim.top_msgbox_disappear);
+        topMsgDisappear.setFillAfter(true);
+        bottomMsgAppear = AnimationUtils.loadAnimation(this,R.anim.bottom_msgbox_appear);
+        bottomMsgDisappear = AnimationUtils.loadAnimation(this,R.anim.bottom_msgbox_disappear);
+        bottomMsgDisappear.setFillAfter(true);
+
+    }
+
     private void openRightMenu(){
         darkBackground.setVisibility(View.VISIBLE);
         slideMenu.setVisibility(View.VISIBLE);
@@ -95,6 +147,11 @@ public class ParkingMapActivity extends AppCompatActivity {
         darkBackground.startAnimation(offDarkAnim);
         darkBackground.setVisibility(View.GONE);
         slideMenu.setVisibility(View.GONE);
+    }
+
+
+    public void touchedMap(View v){
+
     }
 
     public void invitationList(View v){
@@ -116,6 +173,7 @@ public class ParkingMapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_parking_map);
         setSlideMenu();
         setActionBar();
+        setViewWhenCliked();
     }
 
     @Override
