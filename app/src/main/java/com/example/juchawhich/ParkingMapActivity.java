@@ -52,7 +52,7 @@ public class ParkingMapActivity extends AppCompatActivity {
         }
     }
 
-    private void setViewWhenCliked(){
+    private void setAnimationMapClicked(){
         topMsgBox = findViewById(R.id.top_msg_box);
         topMsgBox.setOnTouchListener(new BoxTouchListener());
         bottomMsgBox = findViewById(R.id.bottom_msg_box);
@@ -88,15 +88,13 @@ public class ParkingMapActivity extends AppCompatActivity {
         bottomMsgDisappear.setFillAfter(true);
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_map);
         parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         setActionBar();
-        setViewWhenCliked();
+        setAnimationMapClicked();
     }
 
     @Override
