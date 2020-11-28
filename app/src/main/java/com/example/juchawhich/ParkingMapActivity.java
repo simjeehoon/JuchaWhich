@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -97,16 +98,16 @@ public class ParkingMapActivity extends AppCompatActivity {
     }
 
     public void invitationList(View v){
-        Toast.makeText(getApplicationContext(), "초대목록", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "초대목록", Toast.LENGTH_SHORT).show();
     }
     public void friends(View v){
-        Toast.makeText(getApplicationContext(), "친구들", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "친구들", Toast.LENGTH_SHORT).show();
     }
     public void myAccount(View v){
-        Toast.makeText(getApplicationContext(), "내계정", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "내계정", Toast.LENGTH_SHORT).show();
     }
     public void setting(View v){
-        Toast.makeText(getApplicationContext(), "설정", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "설정", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -124,23 +125,41 @@ public class ParkingMapActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    long initTime;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            if (isMenuOpen) {
+                initTime = 0;
+                isMenuOpen = false;
+                closeRightMenu();
+            } else if(System.currentTimeMillis()-initTime > 3000){
+                Toast.makeText(getApplicationContext(), "종료하려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
+                initTime=System.currentTimeMillis();
+            } else {
+                finish();
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
            case R.id.auto_parking_menu:
-                Toast.makeText(getApplicationContext(), "자동주차", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "자동주차", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.share_car_menu:
-                Toast.makeText(getApplicationContext(), "차량공유", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "차량공유", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.parking_record_menu:
-                Toast.makeText(getApplicationContext(), "주차기록", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "주차기록", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.car_info_menu:
-                Toast.makeText(getApplicationContext(), "차량정보", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "차량정보", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.add_car:
-                Toast.makeText(getApplicationContext(), "차량 추가", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "차량 추가", Toast.LENGTH_SHORT).show();
                 break;
             case android.R.id.home:
                 if(!isMenuOpen) {
