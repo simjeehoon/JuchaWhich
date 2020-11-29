@@ -7,10 +7,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,17 +25,7 @@ public class ParkingMapActivity extends AppCompatActivity implements OnMapReadyC
     Toolbar toolbar;
     ActionBar actionBar;
     ParkingMapSlideMenu parkingMapSlideMenu;
-
-    View topMsgBox;
-    View bottomMsgBox;
-    View mapScreen;
-
-    Animation topMsgAppear;
-    Animation topMsgDisappear;
-    Animation bottomMsgAppear;
-    Animation bottomMsgDisappear;
-
-    boolean msgBoxAppear = true;
+    ParkingMapMessageBox parkingMapMessageBox;
 
     private void setActionBar(){
         toolbar = findViewById(R.id.toolbar);
@@ -49,53 +35,6 @@ public class ParkingMapActivity extends AppCompatActivity implements OnMapReadyC
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
         actionBar.setDisplayHomeAsUpEnabled(true);//좌측 버튼 설정
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);//좌측 버튼 아이콘 설정
-    }
-
-
-    class BoxTouchListener implements View.OnTouchListener{
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if(msgBoxAppear)
-                return true;
-            else
-                return false;
-        }
-    }
-
-    private void setAnimationMapClicked(){
-        topMsgBox = findViewById(R.id.top_msg_box);
-        topMsgBox.setOnTouchListener(new BoxTouchListener());
-        bottomMsgBox = findViewById(R.id.bottom_msg_box);
-        bottomMsgBox.setOnTouchListener(new BoxTouchListener());
-        mapScreen = findViewById(R.id.map_screen);
-        mapScreen.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == 1) {
-                    if (msgBoxAppear) {
-                        topMsgBox.startAnimation(topMsgDisappear);
-                        bottomMsgBox.startAnimation(bottomMsgDisappear);
-                        topMsgBox.setVisibility(View.GONE);
-                        bottomMsgBox.setVisibility(View.GONE);
-                        msgBoxAppear = false;
-                    } else {
-                        topMsgBox.setVisibility(View.VISIBLE);
-                        bottomMsgBox.setVisibility(View.VISIBLE);
-                        topMsgBox.startAnimation(topMsgAppear);
-                        bottomMsgBox.startAnimation(bottomMsgAppear);
-                        msgBoxAppear = true;
-                    }
-                }
-                return true;
-            }
-        });
-
-        topMsgAppear = AnimationUtils.loadAnimation(this,R.anim.top_msgbox_appear);
-        topMsgDisappear = AnimationUtils.loadAnimation(this,R.anim.top_msgbox_disappear);
-        topMsgDisappear.setFillAfter(true);
-        bottomMsgAppear = AnimationUtils.loadAnimation(this,R.anim.bottom_msgbox_appear);
-        bottomMsgDisappear = AnimationUtils.loadAnimation(this,R.anim.bottom_msgbox_disappear);
-        bottomMsgDisappear.setFillAfter(true);
     }
 
     private void setMapScreen(){
@@ -124,9 +63,9 @@ public class ParkingMapActivity extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_map);
-        parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         setActionBar();
-        setAnimationMapClicked();
+        parkingMapSlideMenu = new ParkingMapSlideMenu(this);
+        parkingMapMessageBox = new ParkingMapMessageBox(this);
 
         setMapScreen();
     }
@@ -160,9 +99,11 @@ public class ParkingMapActivity extends AppCompatActivity implements OnMapReadyC
         switch (item.getItemId()){
            case R.id.auto_parking_menu:
                 Toast.makeText(getApplicationContext(), "자동주차", Toast.LENGTH_SHORT).show();
+                parkingMapMessageBox.showMessageBox();
                 break;
             case R.id.share_car_menu:
                 Toast.makeText(getApplicationContext(), "차량공유", Toast.LENGTH_SHORT).show();
+                parkingMapMessageBox.hideMessageBox();
                 break;
             case R.id.parking_record_menu:
                 Toast.makeText(getApplicationContext(), "주차기록", Toast.LENGTH_SHORT).show();
