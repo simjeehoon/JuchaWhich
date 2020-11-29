@@ -1,53 +1,23 @@
 package com.example.juchawhich;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-public class ParkingMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ParkingMapActivity extends AppCompatActivity {
 
     ParkingMapSlideMenu parkingMapSlideMenu;
     ParkingMapMessageBox parkingMapMessageBox;
     ParkingMapToolbar parkingMapToolbar;
+    GoogleMapController googleMapController;
 
     public ParkingMapSlideMenu getParkingMapSlideMenu(){
         return parkingMapSlideMenu;
-    }
-
-    private void setMapScreen(){
-        FragmentManager fragmentManager = getFragmentManager();
-        MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.google_map);
-        mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-        LatLng Seoul = new LatLng(37.56, 126.97);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(Seoul);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
-        map.addMarker(markerOptions);
-
-        map.moveCamera(CameraUpdateFactory.newLatLng(Seoul));
-        map.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 
     @Override
@@ -57,7 +27,7 @@ public class ParkingMapActivity extends AppCompatActivity implements OnMapReadyC
         parkingMapToolbar = new ParkingMapToolbar(this);
         parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         parkingMapMessageBox = new ParkingMapMessageBox(this);
-        setMapScreen();
+        googleMapController = new GoogleMapController(this);
     }
 
     @Override
