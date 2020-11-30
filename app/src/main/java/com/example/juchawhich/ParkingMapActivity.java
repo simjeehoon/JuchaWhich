@@ -1,5 +1,6 @@
 package com.example.juchawhich;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class ParkingMapActivity extends AppCompatActivity {
 
@@ -58,4 +60,11 @@ public class ParkingMapActivity extends AppCompatActivity {
         parkingMapToolbar.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        googleMapController.getCurrentLocationManager().onRequestPermissionResult(requestCode, permissions, grantResults);
+    }
+
 }

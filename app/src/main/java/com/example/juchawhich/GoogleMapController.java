@@ -11,6 +11,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class GoogleMapController implements OnMapReadyCallback {
     ParkingMapActivity mainActivity;
+    CurrentLocationManager currentLocationManager;
+
+    public CurrentLocationManager getCurrentLocationManager(){
+        return currentLocationManager;
+    }
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -27,10 +32,11 @@ public class GoogleMapController implements OnMapReadyCallback {
 
     public GoogleMapController(ParkingMapActivity activity){
         mainActivity = activity;
-
         FragmentManager fragmentManager = mainActivity.getFragmentManager();
         MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
+        currentLocationManager = new CurrentLocationManager(mainActivity);
     }
+
 
 }
