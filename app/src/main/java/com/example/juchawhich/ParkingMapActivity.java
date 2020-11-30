@@ -26,6 +26,8 @@ public class ParkingMapActivity extends AppCompatActivity {
         return parkingMapMessageBox;
     }
 
+    public GoogleMapController getGoogleMapController() {return googleMapController; }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

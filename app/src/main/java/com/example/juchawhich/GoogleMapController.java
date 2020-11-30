@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class GoogleMapController implements OnMapReadyCallback {
@@ -18,9 +19,20 @@ public class GoogleMapController implements OnMapReadyCallback {
     private CurrentLocationManager currentLocationManager;
     private GoogleMap map;
     private boolean autoMoveToCurPositionSucceeded;
+    private Marker curPositionMarker;
 
     public CurrentLocationManager getCurrentLocationManager(){
         return currentLocationManager;
+    }
+
+    private void setCurrentPositionMarker(LatLng pos){
+         if(curPositionMarker != null)
+             curPositionMarker.remove();
+         MarkerOptions curMarkerOptions = new MarkerOptions();
+         curMarkerOptions.position(pos);
+         curMarkerOptions.title("현재 위치");
+         curMarkerOptions.snippet("현재위치입니다");
+         curPositionMarker = map.addMarker(curMarkerOptions);
     }
 
     @Override
@@ -67,6 +79,7 @@ public class GoogleMapController implements OnMapReadyCallback {
         if(currentLocationManager.checkPermission() && currentLocationManager.isLocationAvailable()){
             Location curLocation = currentLocationManager.getLastLocation();
             LatLng latlng = new LatLng(curLocation.getLatitude(), curLocation.getLongitude());
+            setCurrentPositionMarker(latlng);
             map.moveCamera(CameraUpdateFactory.newLatLng(latlng));
             map.animateCamera(CameraUpdateFactory.zoomTo(15));
             return true;

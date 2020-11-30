@@ -76,38 +76,70 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/bottom_msg_box"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:background="#FFF"
-                android:visibility="visible"
                 android:layout_gravity="bottom|center_horizontal">
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/bottom_msg_box"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="현재위치의 주소"
-                    android:textSize="16dp"
-                    android:textColor="#222"/>
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:background="#FFF"
+                    android:visibility="visible"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true">
 
-                <TextView
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="현재위치의 주소"
+                        android:textSize="16dp"
+                        android:textColor="#222"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="주차장 인식 여부"
+                        android:textSize="16dp"
+                        android:textColor="#222"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:lines="1"
+                        android:textColor="#222"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/parking_buttons"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="주차장 인식 여부"
-                    android:textSize="16dp"
-                    android:textColor="#222"/>
-
-                <TextView
-                    android:layout_width="match_parent"
+                    android:gravity="right"
+                    android:layout_above="@id/bottom_msg_box"
+                    android:layout_alignRight="@id/bottom_msg_box"
+                    android:layout_alignWithParentIfMissing="true">
+                    <Button
+                        android:id="@+id/normal_parking_button"
+                        style="@style/ButtonStyle"
+                        android:text="@string/normal_parking"/>
+                    <Button
+                        android:id="@+id/parking_in_lot_button"
+                        style="@style/ButtonStyle"
+                        android:text="@string/parking_in_lot"/>
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/current_position_button"
+                    android:src="@drawable/now_position"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:lines="1"
-                    android:textColor="#222"/>
-
-            </LinearLayout>
+                    android:layout_above="@id/parking_buttons"
+                    android:layout_alignRight="@id/parking_buttons"
+                    android:layout_margin="8dp"
+                    android:layout_alignWithParentIfMissing="true"/>
+            </RelativeLayout>
 
         </FrameLayout>
 

@@ -53,13 +53,12 @@ public class CurrentLocationManager {
     public CurrentLocationManager(AppCompatActivity appCompatActivity, GoogleMapController googleMapController) {
         activity = appCompatActivity;
         this.googleMapController = googleMapController;
+        if(!checkPermission())
+            requestPermission();
         requestLocationUpdates();
     }
 
     public boolean requestLocationUpdates(){
-        if(!checkPermission()){
-            requestPermission();
-        }
         if(checkPermission()) {
             fusedLocationProviderClient = new FusedLocationProviderClient(activity);
             locationRequest = new LocationRequest();
