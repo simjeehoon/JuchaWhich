@@ -1,24 +1,31 @@
 package com.example.juchawhich;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 
 public class ParkingMapMessageBox {
-    Activity mainActivity;
+    private ParkingMapActivity mainActivity;
 
-    View topMsgBox;
-    View bottomMsgBox;
-    View mapScreen;
+    private View topMsgBox;
+    private View bottomMsgBox;
 
-    Animation topMsgAppear;
-    Animation topMsgDisappear;
-    Animation bottomMsgAppear;
-    Animation bottomMsgDisappear;
+    private View buttons;
+    private Button parkingInLotButton;
+    private Button normalParkingButton;
+    private View curPositionButton;
 
-    boolean msgBoxAppear = true;
+    private Animation topMsgAppear;
+    private Animation topMsgDisappear;
+    private Animation bottomMsgAppear;
+    private Animation bottomMsgDisappear;
+    private Animation fadein;
+
+    private boolean msgBoxAppear = true;
 
     class BoxTouchListener implements View.OnTouchListener{
         @Override
@@ -30,15 +37,37 @@ public class ParkingMapMessageBox {
         }
     }
 
-    private void loadBoxAndMapView(){
+    private void loadViews(){
         topMsgBox = mainActivity.findViewById(R.id.top_msg_box);
         bottomMsgBox = mainActivity.findViewById(R.id.bottom_msg_box);
-        mapScreen = mainActivity.findViewById(R.id.map_screen);
+        buttons = mainActivity.findViewById(R.id.parking_buttons);
+        normalParkingButton = mainActivity.findViewById(R.id.normal_parking_button);
+        parkingInLotButton = mainActivity.findViewById(R.id.parking_in_lot_button);
+        curPositionButton = mainActivity.findViewById(R.id.current_position_button);
     }
 
     private void setBoxTouchListener(){
         topMsgBox.setOnTouchListener(new BoxTouchListener());
         bottomMsgBox.setOnTouchListener(new BoxTouchListener());
+        buttons.setOnTouchListener(new BoxTouchListener());
+        parkingInLotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("test", "hello");
+            }
+        });
+        normalParkingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("test", "hello");
+            }
+        });
+        curPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.getGoogleMapController().moveToCurPosition();
+            }
+        });
     }
 
     private void loadAnimation(){
@@ -48,45 +77,40 @@ public class ParkingMapMessageBox {
         bottomMsgAppear = AnimationUtils.loadAnimation(mainActivity, R.anim.bottom_msgbox_appear);
         bottomMsgDisappear = AnimationUtils.loadAnimation(mainActivity, R.anim.bottom_msgbox_disappear);
         bottomMsgDisappear.setFillAfter(true);
+        fadein = AnimationUtils.loadAnimation(mainActivity,R.anim.alpha_on);
     }
 
     public void showMessageBox(){
         msgBoxAppear = true;
         topMsgBox.setVisibility(View.VISIBLE);
         bottomMsgBox.setVisibility(View.VISIBLE);
+        buttons.setVisibility(View.VISIBLE);
+        parkingInLotButton.setVisibility(View.VISIBLE);
+        normalParkingButton.setVisibility(View.VISIBLE);
         topMsgBox.startAnimation(topMsgAppear);
         bottomMsgBox.startAnimation(bottomMsgAppear);
+        buttons.startAnimation(fadein);
     }
 
     public void hideMessageBox(){
         msgBoxAppear = false;
         topMsgBox.startAnimation(topMsgDisappear);
         bottomMsgBox.startAnimation(bottomMsgDisappear);
-        topMsgBox.setVisibility(View.GONE);
+        topMsgBox.setVisibility(View.INVISIBLE);
         bottomMsgBox.setVisibility(View.GONE);
+        buttons.setVisibility(View.GONE);
+        parkingInLotButton.setVisibility(View.GONE);
+        normalParkingButton.setVisibility(View.GONE);
     }
 
-    private void setMainViewTouchListener(){
-        mapScreen.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == 1) {
-                    if (msgBoxAppear) {
-                        hideMessageBox();
-                    } else {
-                        showMessageBox();
-                    }
-                }
-                return true;
-            }
-        });
+    public boolean isMsgBoxAppear(){
+        return msgBoxAppear;
     }
 
-    public ParkingMapMessageBox(Activity activity){
+    public ParkingMapMessageBox(ParkingMapActivity activity){
         mainActivity = activity;
-        loadBoxAndMapView();
+        loadViews();
         setBoxTouchListener();
         loadAnimation();
-        setMainViewTouchListener();
     }
 }

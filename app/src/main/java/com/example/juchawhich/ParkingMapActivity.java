@@ -1,5 +1,6 @@
 package com.example.juchawhich;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -8,17 +9,24 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class ParkingMapActivity extends AppCompatActivity {
 
-    ParkingMapSlideMenu parkingMapSlideMenu;
-    ParkingMapMessageBox parkingMapMessageBox;
-    ParkingMapToolbar parkingMapToolbar;
-    GoogleMapController googleMapController;
+    private ParkingMapSlideMenu parkingMapSlideMenu;
+    private ParkingMapMessageBox parkingMapMessageBox;
+    private ParkingMapToolbar parkingMapToolbar;
+    private GoogleMapController googleMapController;
 
     public ParkingMapSlideMenu getParkingMapSlideMenu(){
         return parkingMapSlideMenu;
     }
+
+    public ParkingMapMessageBox getParkingMapMessageBox(){
+        return parkingMapMessageBox;
+    }
+
+    public GoogleMapController getGoogleMapController() {return googleMapController; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,11 @@ public class ParkingMapActivity extends AppCompatActivity {
         parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         parkingMapMessageBox = new ParkingMapMessageBox(this);
         googleMapController = new GoogleMapController(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -58,4 +71,11 @@ public class ParkingMapActivity extends AppCompatActivity {
         parkingMapToolbar.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        googleMapController.getCurrentLocationManager().onRequestPermissionResult(requestCode, permissions, grantResults);
+    }
+
 }

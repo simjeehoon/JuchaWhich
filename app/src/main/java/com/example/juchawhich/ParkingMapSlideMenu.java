@@ -9,20 +9,20 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class ParkingMapSlideMenu {
-    Activity mainActivity;
+    private Activity mainActivity;
 
-    LinearLayout slideMenu;
-    View darkBackground;
+    private LinearLayout slideMenu;
+    private View darkBackground;
 
-    View invitationListView;
-    View friendsView;
-    View myAccountsView;
-    View settingsView;
+    private View invitationListView;
+    private View friendsView;
+    private View myAccountsView;
+    private View settingsView;
 
-    Animation menuOpenAnim;
-    Animation menuCloseAnim;
-    Animation onDarkAnim;
-    Animation offDarkAnim;
+    private Animation menuOpenAnim;
+    private Animation menuCloseAnim;
+    private Animation onDarkAnim;
+    private Animation offDarkAnim;
 
     boolean menuOpen = false;
     private void setMenuOpen(boolean opened){menuOpen = opened;}
