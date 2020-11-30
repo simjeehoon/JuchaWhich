@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal">
+
+    <FrameLayout
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <!--주차가 안되었을때 나타나는 뷰-->
+        <LinearLayout
+            android:id="@+id/bottom_box_no_paking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--주차 버튼들 -->
+            <LinearLayout
+                android:id="@+id/parking_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+                <Button
+                    android:id="@+id/normal_parking_button"
+                    style="@style/ButtonStyle"
+                    android:text="@string/normal_parking"/>
+                <Button
+                    android:id="@+id/parking_in_lot_button"
+                    style="@style/ButtonStyle"
+                    android:text="@string/parking_in_lot"/>
+            </LinearLayout>
+
+            <!--주차가 안되었을때 나타나는 박스 -->
+            <LinearLayout
+                android:id="@+id/bottom_msg_box"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:background="#FFF"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/point_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="현재위치의 주소"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="16dp"
+                    android:textColor="#222"/>
+
+                <TextView
+                    android:id="@+id/recognize_parking_lot_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="주차장 인식 여부"
+                    android:textSize="16dp"
+                    android:textColor="#222"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 주차가 된 상태에서 나타나는 버튼 목록 (미구현)-->
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/current_position_button"
+        android:src="@drawable/now_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_view"
+        android:layout_alignRight="@id/bottom_view"
+        android:layout_margin="8dp"
+        android:layout_alignWithParentIfMissing="true"/>
+
+</RelativeLayout>

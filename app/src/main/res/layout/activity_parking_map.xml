@@ -18,6 +18,7 @@
             android:background="?attr/colorPrimary">
 
             <TextView
+                android:id="@+id/selected_car_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
@@ -42,208 +43,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     class="com.google.android.gms.maps.MapFragment"/>
-
-
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/top_msg_box"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:padding="12dp"
-                android:background="#DBB"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="제목"
-                    android:textSize="22dp"
-                    android:textColor="#000"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:text="텍스트의 내용"
-                    android:textSize="16dp"
-                    android:textColor="#000"/>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal">
-                <LinearLayout
-                    android:id="@+id/bottom_msg_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:background="#FFF"
-                    android:visibility="visible"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true">
-
-                    <TextView
-                        android:id="@+id/point_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="현재위치의 주소"
-                        android:textSize="16dp"
-                        android:textColor="#222"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="주차장 인식 여부"
-                        android:textSize="16dp"
-                        android:textColor="#222"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16dp"
-                        android:lines="1"
-                        android:textColor="#222"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/parking_buttons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_above="@id/bottom_msg_box"
-                    android:layout_alignRight="@id/bottom_msg_box"
-                    android:layout_alignWithParentIfMissing="true">
-                    <Button
-                        android:id="@+id/normal_parking_button"
-                        style="@style/ButtonStyle"
-                        android:text="@string/normal_parking"/>
-                    <Button
-                        android:id="@+id/parking_in_lot_button"
-                        style="@style/ButtonStyle"
-                        android:text="@string/parking_in_lot"/>
-                </LinearLayout>
-                <ImageView
-                    android:id="@+id/current_position_button"
-                    android:src="@drawable/now_position"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/parking_buttons"
-                    android:layout_alignRight="@id/parking_buttons"
-                    android:layout_margin="8dp"
-                    android:layout_alignWithParentIfMissing="true"/>
-            </RelativeLayout>
-
+            <include
+                layout="@layout/tob_box"/>
+            <include
+                layout="@layout/bottom_box"/>
         </FrameLayout>
 
     </LinearLayout>
 
     <!-- 슬라이드 메뉴 -->
+    <include
+        layout="@layout/slide_menu"/>
 
-    <View
-        android:id="@+id/dark_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="#000"
-        android:alpha="0.6">
-    </View>
-
-    <LinearLayout
-        android:id="@+id/slide_menu"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:background="#225"
-        android:layout_width="250dp"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="vertical"
-            android:background="#779"
-            android:paddingLeft="8dp"
-            android:gravity="bottom|left">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/avatar"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="사용자명"
-                android:layout_marginBottom="3dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:text="email@address.com"
-                android:layout_marginBottom="14dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/invitation_list"
-            android:layout_marginTop="15dp"
-            style="@style/RightScreenButtonStyle">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/mail_icon"/>
-            <TextView
-                android:layout_marginLeft="13dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="초대 목록"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/friends"
-            style="@style/RightScreenButtonStyle">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/friend_icon"/>
-            <TextView
-                android:layout_marginLeft="13dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="친구"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/my_account"
-            style="@style/RightScreenButtonStyle">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/accounts_icon"/>
-            <TextView
-                android:layout_marginLeft="13dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내 계정"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/settings"
-            style="@style/RightScreenButtonStyle"
-            android:layout_marginTop="15dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/settings_icon"/>
-            <TextView
-                android:layout_marginLeft="13dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="설정"/>
-        </LinearLayout>
-    </LinearLayout>
 </FrameLayout>

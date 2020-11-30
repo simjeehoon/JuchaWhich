@@ -82,6 +82,23 @@ public class ParkingMapMessageBox {
         bottomMsgAppear = AnimationUtils.loadAnimation(mainActivity, R.anim.bottom_msgbox_appear);
         bottomMsgDisappear = AnimationUtils.loadAnimation(mainActivity, R.anim.bottom_msgbox_disappear);
         bottomMsgDisappear.setFillAfter(true);
+        bottomMsgDisappear.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                parkingInLotButton.setVisibility(View.GONE);
+                normalParkingButton.setVisibility(View.GONE);
+                buttons.setVisibility(View.GONE);
+                bottomMsgBox.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
         fadein = AnimationUtils.loadAnimation(mainActivity,R.anim.alpha_on);
     }
 
@@ -102,10 +119,9 @@ public class ParkingMapMessageBox {
         topMsgBox.startAnimation(topMsgDisappear);
         bottomMsgBox.startAnimation(bottomMsgDisappear);
         topMsgBox.setVisibility(View.INVISIBLE);
-        bottomMsgBox.setVisibility(View.GONE);
-        buttons.setVisibility(View.GONE);
-        parkingInLotButton.setVisibility(View.GONE);
-        normalParkingButton.setVisibility(View.GONE);
+        parkingInLotButton.setVisibility(View.INVISIBLE);
+        normalParkingButton.setVisibility(View.INVISIBLE);
+        buttons.setVisibility(View.INVISIBLE);
     }
 
     public boolean isMsgBoxAppear(){
