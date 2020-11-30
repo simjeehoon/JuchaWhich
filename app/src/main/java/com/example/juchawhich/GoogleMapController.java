@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.location.Location;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -38,6 +37,7 @@ public class GoogleMapController implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap m) {
         map = m;
+        map.getUiSettings().setMapToolbarEnabled(false);
 
         LatLng latlng = new LatLng(37.56, 126.97);
         MarkerOptions markerOptions = new MarkerOptions();
@@ -45,11 +45,10 @@ public class GoogleMapController implements OnMapReadyCallback {
         markerOptions.title("서울");
         markerOptions.snippet("한국의 수도");
 
-        map.addMarker(markerOptions);
+        curPositionMarker = map.addMarker(markerOptions);
         map.moveCamera(CameraUpdateFactory.newLatLng(latlng));
         map.animateCamera(CameraUpdateFactory.zoomTo(16));
 
-        //map.getUiSettings().setMyLocationButtonEnabled(true);
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
