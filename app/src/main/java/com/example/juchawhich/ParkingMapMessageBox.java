@@ -7,18 +7,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 public class ParkingMapMessageBox {
-    Activity mainActivity;
+    private Activity mainActivity;
 
-    View topMsgBox;
-    View bottomMsgBox;
-    View mapScreen;
+    private View topMsgBox;
+    private View bottomMsgBox;
+    private View mapScreen;
 
-    Animation topMsgAppear;
-    Animation topMsgDisappear;
-    Animation bottomMsgAppear;
-    Animation bottomMsgDisappear;
+    private Animation topMsgAppear;
+    private Animation topMsgDisappear;
+    private Animation bottomMsgAppear;
+    private Animation bottomMsgDisappear;
 
-    boolean msgBoxAppear = true;
+    private boolean msgBoxAppear = true;
 
     class BoxTouchListener implements View.OnTouchListener{
         @Override

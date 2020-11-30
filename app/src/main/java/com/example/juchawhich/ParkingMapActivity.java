@@ -13,10 +13,10 @@ import androidx.core.content.ContextCompat;
 
 public class ParkingMapActivity extends AppCompatActivity {
 
-    ParkingMapSlideMenu parkingMapSlideMenu;
-    ParkingMapMessageBox parkingMapMessageBox;
-    ParkingMapToolbar parkingMapToolbar;
-    GoogleMapController googleMapController;
+    private ParkingMapSlideMenu parkingMapSlideMenu;
+    private ParkingMapMessageBox parkingMapMessageBox;
+    private ParkingMapToolbar parkingMapToolbar;
+    private GoogleMapController googleMapController;
 
     public ParkingMapSlideMenu getParkingMapSlideMenu(){
         return parkingMapSlideMenu;
@@ -34,6 +34,11 @@ public class ParkingMapActivity extends AppCompatActivity {
         parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         parkingMapMessageBox = new ParkingMapMessageBox(this);
         googleMapController = new GoogleMapController(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

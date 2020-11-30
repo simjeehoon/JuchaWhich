@@ -8,10 +8,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 public class ParkingMapToolbar {
-    ParkingMapActivity mainActivity;
+    private ParkingMapActivity mainActivity;
 
-    Toolbar toolbar;
-    ActionBar actionBar;
+    private Toolbar toolbar;
+    private ActionBar actionBar;
 
     public ParkingMapToolbar(ParkingMapActivity appCompatActivity){
         mainActivity = appCompatActivity;
