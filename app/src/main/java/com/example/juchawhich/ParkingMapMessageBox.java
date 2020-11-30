@@ -66,20 +66,8 @@ public class ParkingMapMessageBox {
         bottomMsgBox.setVisibility(View.GONE);
     }
 
-    private void setMainViewTouchListener(){
-        mapScreen.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == 1) {
-                    if (msgBoxAppear) {
-                        hideMessageBox();
-                    } else {
-                        showMessageBox();
-                    }
-                }
-                return true;
-            }
-        });
+    public boolean isMsgBoxAppear(){
+        return msgBoxAppear;
     }
 
     public ParkingMapMessageBox(Activity activity){
@@ -87,6 +75,5 @@ public class ParkingMapMessageBox {
         loadBoxAndMapView();
         setBoxTouchListener();
         loadAnimation();
-        setMainViewTouchListener();
     }
 }

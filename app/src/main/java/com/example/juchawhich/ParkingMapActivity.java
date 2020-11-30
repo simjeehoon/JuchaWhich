@@ -22,6 +22,10 @@ public class ParkingMapActivity extends AppCompatActivity {
         return parkingMapSlideMenu;
     }
 
+    public ParkingMapMessageBox getParkingMapMessageBox(){
+        return parkingMapMessageBox;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

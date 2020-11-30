@@ -30,9 +30,13 @@ public class CurrentLocationManager {
         }
     }
 
+    public void requestPermission(){
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 105);
+    }
+
     public CurrentLocationManager(AppCompatActivity appCompatActivity) {
         activity = appCompatActivity;
         if (!checkPermission())
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 105);
+            requestPermission();
     }
 }

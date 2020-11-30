@@ -28,6 +28,17 @@ public class GoogleMapController implements OnMapReadyCallback {
 
         map.moveCamera(CameraUpdateFactory.newLatLng(Seoul));
         map.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+        //map.getUiSettings().setMyLocationButtonEnabled(true);
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if(mainActivity.getParkingMapMessageBox().isMsgBoxAppear())
+                    mainActivity.getParkingMapMessageBox().hideMessageBox();
+                else
+                    mainActivity.getParkingMapMessageBox().showMessageBox();
+            }
+        });
     }
 
     public GoogleMapController(ParkingMapActivity activity){
