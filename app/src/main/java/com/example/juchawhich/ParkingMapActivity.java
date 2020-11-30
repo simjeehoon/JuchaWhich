@@ -1,6 +1,5 @@
 package com.example.juchawhich;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -9,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 public class ParkingMapActivity extends AppCompatActivity {
 
