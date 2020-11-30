@@ -3,6 +3,7 @@ package com.example.juchawhich;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -67,11 +68,13 @@ public class CurrentLocationManager {
             locationRequest.setInterval(1000);
 
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+                int i;
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
                     super.onLocationResult(locationResult);
                     lastLocation = locationResult.getLastLocation();
                     googleMapController.moveToCurpositionOnCreate();
+                    Log.d("locationUpdate", "location : "+lastLocation.getLatitude()+", "+lastLocation.getLongitude()+",    "+i++);
                 }
             }, activity.getMainLooper());
             return true;
