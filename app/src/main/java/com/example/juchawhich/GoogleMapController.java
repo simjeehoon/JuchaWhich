@@ -1,6 +1,8 @@
 package com.example.juchawhich;
 
 import android.app.FragmentManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.widget.Toast;
 
@@ -12,6 +14,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+
 public class GoogleMapController implements OnMapReadyCallback {
 
     private ParkingMapActivity mainActivity;
@@ -19,6 +24,7 @@ public class GoogleMapController implements OnMapReadyCallback {
     private GoogleMap map;
     private boolean autoMoveToCurPositionSucceeded;
     private Marker curPositionMarker;
+    private Geocoder geocoder;
 
     public CurrentLocationManager getCurrentLocationManager(){
         return currentLocationManager;
@@ -54,8 +60,6 @@ public class GoogleMapController implements OnMapReadyCallback {
             public void onMapClick(LatLng latLng) {
                 if(mainActivity.getParkingMapMessageBox().isMsgBoxAppear()) {
                     mainActivity.getParkingMapMessageBox().hideMessageBox();
-                    if(currentLocationManager.isLocationAvailable()){
-                    }
                 }
                 else{
                     mainActivity.getParkingMapMessageBox().showMessageBox();
@@ -70,6 +74,7 @@ public class GoogleMapController implements OnMapReadyCallback {
         MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
         currentLocationManager = new CurrentLocationManager(mainActivity, this);
+        geocoder = new Geocoder(mainActivity);
     }
 
     public boolean moveToCurPosition(){
@@ -93,5 +98,27 @@ public class GoogleMapController implements OnMapReadyCallback {
             moveToCurPosition();
             autoMoveToCurPositionSucceeded=true;
         }
+    }
+
+    public String getAddress(Location location){
+        String address;
+        try{
+            List<Address> resultList = geocoder.getFromLocation(
+                    location.getLatitude(), location.getLongitude(), 1
+            );
+            address = resultList.get(0).getAddressLine(0);
+        } catch (IOException e) {
+            address = new String("주소 얻기 실패");
+        }
+        return address;
+    }
+
+    public String getCurrentPositionAddress(){
+        Location location;
+        if(currentLocationManager.isLocationAvailable())
+            location = currentLocationManager.getLastLocation();
+        else
+            return null;
+        return getAddress(location);
     }
 }

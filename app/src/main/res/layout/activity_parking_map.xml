@@ -92,6 +92,7 @@
                     android:layout_centerHorizontal="true">
 
                     <TextView
+                        android:id="@+id/point_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="현재위치의 주소"

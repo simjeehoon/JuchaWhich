@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ParkingMapMessageBox {
     private ParkingMapActivity mainActivity;
@@ -24,6 +25,8 @@ public class ParkingMapMessageBox {
     private Animation bottomMsgAppear;
     private Animation bottomMsgDisappear;
     private Animation fadein;
+
+    private TextView address;
 
     private boolean msgBoxAppear = true;
 
@@ -44,6 +47,7 @@ public class ParkingMapMessageBox {
         normalParkingButton = mainActivity.findViewById(R.id.normal_parking_button);
         parkingInLotButton = mainActivity.findViewById(R.id.parking_in_lot_button);
         curPositionButton = mainActivity.findViewById(R.id.current_position_button);
+        address=mainActivity.findViewById(R.id.point_address);
     }
 
     private void setBoxTouchListener(){
@@ -66,6 +70,7 @@ public class ParkingMapMessageBox {
             @Override
             public void onClick(View v) {
                 mainActivity.getGoogleMapController().moveToCurPosition();
+                address.setText("현재 위치: " + mainActivity.getGoogleMapController().getCurrentPositionAddress());
             }
         });
     }
