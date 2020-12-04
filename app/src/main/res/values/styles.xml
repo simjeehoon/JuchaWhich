@@ -35,4 +35,8 @@
         <item name="colorControlHighlight">#0000ff</item>
     </style>
 
+    <style name="normalTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

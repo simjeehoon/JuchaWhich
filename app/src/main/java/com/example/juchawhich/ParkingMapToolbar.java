@@ -1,5 +1,6 @@
 package com.example.juchawhich;
 
+import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class ParkingMapToolbar {
                 Toast.makeText(mainActivity.getApplicationContext(), "차량정보", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.add_car:
-                Toast.makeText(mainActivity.getApplicationContext(), "차량 추가", Toast.LENGTH_SHORT).show();
+                startAddCarActivity();
                 break;
             case android.R.id.home:
                 if(!mainActivity.getParkingMapSlideMenu().isMenuOpen()) {
@@ -49,5 +50,11 @@ public class ParkingMapToolbar {
                 }
                 break;
         }
+    }
+
+    private void startAddCarActivity(){
+        Intent intent = new Intent();
+        intent.setClass(mainActivity, AddCarActivity.class);
+        mainActivity.startActivityForResult(intent, 100);
     }
 }

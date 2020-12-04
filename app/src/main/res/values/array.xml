@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="연료종류">
+        <item>선택 안함</item>
+        <item>휘발유</item>
+        <item>경유</item>
+        <item>LPG</item>
+        <item>전기</item>
+        <item>CNG</item>
+        <item>기타</item>
+    </string-array>
+</resources>
