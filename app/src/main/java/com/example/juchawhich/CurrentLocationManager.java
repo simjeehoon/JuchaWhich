@@ -1,7 +1,10 @@
 package com.example.juchawhich;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,19 +20,22 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 
+import java.io.IOException;
+import java.util.List;
+
 public class CurrentLocationManager {
-    private ParkingMapActivity activity;
     private GoogleMapController googleMapController;
+    private ParkingMapActivity parkingMapActivity;
 
-    boolean fineLocationPermission;
-    boolean coarseLocationPermission;
+    static boolean fineLocationPermission;
+    static boolean coarseLocationPermission;
 
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private LocationRequest locationRequest;
+    static private FusedLocationProviderClient fusedLocationProviderClient;
+    static private LocationRequest locationRequest;
 
-    Location lastLocation;
+    static private Location lastLocation;
 
-    public boolean checkPermission() {
+    static public boolean checkPermission(Activity activity) {
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             fineLocationPermission = true;
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -37,7 +43,7 @@ public class CurrentLocationManager {
         return fineLocationPermission && coarseLocationPermission;
     }
 
-    public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    static public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 105 && grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 fineLocationPermission = true;
@@ -46,20 +52,20 @@ public class CurrentLocationManager {
         }
     }
 
-    public void requestPermission(){
+    static public void requestPermission(AppCompatActivity activity){
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 105);
     }
 
     public CurrentLocationManager(ParkingMapActivity appCompatActivity, GoogleMapController googleMapController) {
-        activity = appCompatActivity;
         this.googleMapController = googleMapController;
-        if(!checkPermission())
-            requestPermission();
-        requestLocationUpdates();
+        parkingMapActivity = appCompatActivity;
+        if(!checkPermission(appCompatActivity))
+            requestPermission(appCompatActivity);
+        requestLocationUpdates(appCompatActivity);
     }
 
-    public boolean requestLocationUpdates(){
-        if(checkPermission()) {
+    public boolean requestLocationUpdates(AppCompatActivity activity){
+        if(checkPermission(activity)) {
             fusedLocationProviderClient = new FusedLocationProviderClient(activity);
             locationRequest = new LocationRequest();
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -73,7 +79,7 @@ public class CurrentLocationManager {
                     super.onLocationResult(locationResult);
                     lastLocation = locationResult.getLastLocation();
                     googleMapController.moveToCurpositionOnCreate();
-                    activity.getParkingMapMessageBox().setCurAddress();
+                    parkingMapActivity.getParkingMapMessageBox().setCurAddress();
                     Log.d("locationUpdate", "location : "+lastLocation.getLatitude()+", "+lastLocation.getLongitude()+",    "+i++);
                 }
             }, activity.getMainLooper());
@@ -84,11 +90,25 @@ public class CurrentLocationManager {
         }
     }
 
-    public boolean isLocationAvailable(){
+    static public boolean isLocationAvailable(){
         return lastLocation != null;
     }
 
-    public Location getLastLocation(){
+    static public Location getLastLocation(){
         return lastLocation;
+    }
+
+    static String getAddress(AppCompatActivity activity, Location location){
+        Geocoder geocoder = new Geocoder(activity);
+        String address;
+        try{
+            List<Address> resultList = geocoder.getFromLocation(
+                    location.getLatitude(), location.getLongitude(), 1
+            );
+            address = resultList.get(0).getAddressLine(0);
+        } catch (IOException e) {
+            address = new String("주소 얻기 실패");
+        }
+        return address;
     }
 }

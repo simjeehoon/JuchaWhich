@@ -24,7 +24,6 @@ public class GoogleMapController implements OnMapReadyCallback {
     private GoogleMap map;
     private boolean autoMoveToCurPositionSucceeded;
     private Marker curPositionMarker;
-    private Geocoder geocoder;
 
     public CurrentLocationManager getCurrentLocationManager(){
         return currentLocationManager;
@@ -74,13 +73,13 @@ public class GoogleMapController implements OnMapReadyCallback {
         MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
         currentLocationManager = new CurrentLocationManager(mainActivity, this);
-        geocoder = new Geocoder(mainActivity);
+
     }
 
     public boolean moveToCurPosition(){
-        if(!currentLocationManager.checkPermission())
-           currentLocationManager.requestPermission();
-        if(currentLocationManager.checkPermission() && currentLocationManager.isLocationAvailable()){
+        if(!currentLocationManager.checkPermission(mainActivity))
+           currentLocationManager.requestPermission(mainActivity);
+        if(currentLocationManager.checkPermission(mainActivity) && currentLocationManager.isLocationAvailable()){
             Location curLocation = currentLocationManager.getLastLocation();
             LatLng latlng = new LatLng(curLocation.getLatitude(), curLocation.getLongitude());
             setCurrentPositionMarker(latlng);
@@ -101,16 +100,7 @@ public class GoogleMapController implements OnMapReadyCallback {
     }
 
     public String getAddress(Location location){
-        String address;
-        try{
-            List<Address> resultList = geocoder.getFromLocation(
-                    location.getLatitude(), location.getLongitude(), 1
-            );
-            address = resultList.get(0).getAddressLine(0);
-        } catch (IOException e) {
-            address = new String("주소 얻기 실패");
-        }
-        return address;
+        return CurrentLocationManager.getAddress(mainActivity, location);
     }
 
     public String getCurrentPositionAddress(){

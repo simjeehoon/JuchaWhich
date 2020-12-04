@@ -76,6 +76,6 @@
         android:layout_above="@id/bottom_view"
         android:layout_alignRight="@id/bottom_view"
         android:layout_margin="8dp"
-        android:layout_alignWithParentIfMissing="true"/>
+        android:layout_alignWithParentIfMissing="true"        />
 
 </RelativeLayout>

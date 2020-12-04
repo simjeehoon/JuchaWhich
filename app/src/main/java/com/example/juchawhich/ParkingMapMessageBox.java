@@ -1,6 +1,7 @@
 package com.example.juchawhich;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,7 +64,9 @@ public class ParkingMapMessageBox {
         normalParkingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("test", "hello");
+                Intent intent = new Intent();
+                intent.setClass(mainActivity, NormalParkingActivity.class);
+                mainActivity.startActivityForResult(intent, 110);
             }
         });
         curPositionButton.setOnClickListener(new View.OnClickListener() {
