@@ -18,7 +18,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 
 public class CurrentLocationManager {
-    private AppCompatActivity activity;
+    private ParkingMapActivity activity;
     private GoogleMapController googleMapController;
 
     boolean fineLocationPermission;
@@ -50,7 +50,7 @@ public class CurrentLocationManager {
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 105);
     }
 
-    public CurrentLocationManager(AppCompatActivity appCompatActivity, GoogleMapController googleMapController) {
+    public CurrentLocationManager(ParkingMapActivity appCompatActivity, GoogleMapController googleMapController) {
         activity = appCompatActivity;
         this.googleMapController = googleMapController;
         if(!checkPermission())
@@ -73,6 +73,7 @@ public class CurrentLocationManager {
                     super.onLocationResult(locationResult);
                     lastLocation = locationResult.getLastLocation();
                     googleMapController.moveToCurpositionOnCreate();
+                    activity.getParkingMapMessageBox().setCurAddress();
                     Log.d("locationUpdate", "location : "+lastLocation.getLatitude()+", "+lastLocation.getLongitude()+",    "+i++);
                 }
             }, activity.getMainLooper());

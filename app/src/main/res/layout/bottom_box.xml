@@ -48,7 +48,7 @@
                     android:id="@+id/point_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="현재위치의 주소"
+                    android:text="현재위치: 인식 안됨"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:textSize="16dp"
@@ -58,7 +58,7 @@
                     android:id="@+id/recognize_parking_lot_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="주차장 인식 여부"
+                    android:text="주차장 인식 안됨"
                     android:textSize="16dp"
                     android:textColor="#222"/>
             </LinearLayout>

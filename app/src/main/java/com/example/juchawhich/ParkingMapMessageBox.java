@@ -26,7 +26,7 @@ public class ParkingMapMessageBox {
     private Animation bottomMsgDisappear;
     private Animation fadein;
 
-    private TextView address;
+    private TextView addressText;
 
     private boolean msgBoxAppear = true;
 
@@ -47,7 +47,7 @@ public class ParkingMapMessageBox {
         normalParkingButton = mainActivity.findViewById(R.id.normal_parking_button);
         parkingInLotButton = mainActivity.findViewById(R.id.parking_in_lot_button);
         curPositionButton = mainActivity.findViewById(R.id.current_position_button);
-        address=mainActivity.findViewById(R.id.point_address);
+        addressText=mainActivity.findViewById(R.id.point_address);
     }
 
     private void setBoxTouchListener(){
@@ -70,7 +70,6 @@ public class ParkingMapMessageBox {
             @Override
             public void onClick(View v) {
                 mainActivity.getGoogleMapController().moveToCurPosition();
-                address.setText("현재 위치: " + mainActivity.getGoogleMapController().getCurrentPositionAddress());
             }
         });
     }
@@ -133,5 +132,9 @@ public class ParkingMapMessageBox {
         loadViews();
         setBoxTouchListener();
         loadAnimation();
+    }
+
+    public void setCurAddress(){
+        addressText.setText("현재 위치: " + mainActivity.getGoogleMapController().getCurrentPositionAddress());
     }
 }
