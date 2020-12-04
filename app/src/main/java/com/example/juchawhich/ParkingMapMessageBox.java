@@ -101,23 +101,40 @@ public class ParkingMapMessageBox {
         fadein = AnimationUtils.loadAnimation(mainActivity,R.anim.alpha_on);
     }
 
+    private void showTopBox(){
+        topMsgBox.setVisibility(View.VISIBLE);
+        topMsgBox.startAnimation(topMsgAppear);
+    }
+
+    private void showBottomBox(){
+        bottomMsgBox.setVisibility(View.VISIBLE);
+        bottomMsgBox.startAnimation(bottomMsgAppear);
+    }
+
     public void showMessageBox(){
         msgBoxAppear = true;
-        topMsgBox.setVisibility(View.VISIBLE);
-        bottomMsgBox.setVisibility(View.VISIBLE);
+        showTopBox();
+        showBottomBox();
         buttons.setVisibility(View.VISIBLE);
         parkingInLotButton.setVisibility(View.VISIBLE);
         normalParkingButton.setVisibility(View.VISIBLE);
-        topMsgBox.startAnimation(topMsgAppear);
-        bottomMsgBox.startAnimation(bottomMsgAppear);
+
         buttons.startAnimation(fadein);
     }
 
+    private void hideTopBox(){
+        topMsgBox.startAnimation(topMsgDisappear);
+        topMsgBox.setVisibility(View.INVISIBLE);
+    }
+
+    private void hideBottomBox(){
+        bottomMsgBox.startAnimation(bottomMsgDisappear);
+    }
     public void hideMessageBox(){
         msgBoxAppear = false;
-        topMsgBox.startAnimation(topMsgDisappear);
-        bottomMsgBox.startAnimation(bottomMsgDisappear);
-        topMsgBox.setVisibility(View.INVISIBLE);
+        hideTopBox();
+        hideBottomBox();
+
         parkingInLotButton.setVisibility(View.INVISIBLE);
         normalParkingButton.setVisibility(View.INVISIBLE);
         buttons.setVisibility(View.INVISIBLE);

@@ -38,6 +38,7 @@ public class ParkingMapActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        parkingMapToolbar.renewCarList();
         super.onResume();
     }
 

@@ -17,13 +17,17 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary">
 
-            <TextView
-                android:id="@+id/selected_car_name"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/add_car_button_when_no_car"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:textSize="20dp"
-                android:text="차량 정보"/>
+                android:text="차량 추가..."/>
+            <Spinner
+                android:id="@+id/car_list"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"/>
 
         </androidx.appcompat.widget.Toolbar>
 

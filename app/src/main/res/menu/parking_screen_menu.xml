@@ -13,17 +13,5 @@
     <item
         android:id="@+id/car_info_menu"
         android:title="차량 정보" />
-    <item
-        android:id="@+id/car_list"
-        android:icon="@drawable/car_list_arrow"
-        android:title="Car List"
-        app:showAsAction="always">
-        <menu>
-            <item android:id="@+id/carList1"
-                android:title="그렌져"/>
-            <item android:id="@+id/add_car"
-                android:title="차량 추가..."/>
-        </menu>
 
-    </item>
 </menu>

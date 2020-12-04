@@ -5,5 +5,5 @@
     <string name="normal_parking">일반 주차</string>
     <string name="parking_in_lot">주차장에 주차</string>
     <string name="no_car_title">지정된 차량이 없습니다.</string>
-    <string name="no_car_message">오른쪽 위의 화살표를 눌러 차량을 추가하거나 공유/대여 차량 초대를 받아주세요</string>
+    <string name="no_car_message">화면 상단의 차량 추가 버튼을 눌러 차량을 추가하거나 공유/대여 차량 초대를 받아주세요</string>
 </resources>
