@@ -10,10 +10,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+
 public class ParkingMapMessageBox {
     private ParkingMapActivity mainActivity;
 
     private View topMsgBox;
+    private View topParkingDataBox;
     private View bottomMsgBox;
 
     private View buttons;
@@ -30,6 +33,11 @@ public class ParkingMapMessageBox {
     private TextView addressText;
 
     private boolean msgBoxAppear = true;
+    private int status;
+
+    static final int NO_CAR_DATA = 0;
+    static final int NO_PARKED = 1;
+    static final int PARKED = 2;
 
     class BoxTouchListener implements View.OnTouchListener{
         @Override
@@ -41,6 +49,17 @@ public class ParkingMapMessageBox {
         }
     }
 
+    public void statusChange(int s){
+        if(s == PARKED){
+            topMsgBox.setVisibility(View.GONE);
+            topParkingDataBox.setVisibility(View.VISIBLE);
+            topMsgBox = topParkingDataBox;
+        } else if(s == NO_CAR_DATA){
+            topParkingDataBox.setVisibility(View.GONE);
+            topMsgBox.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void loadViews(){
         topMsgBox = mainActivity.findViewById(R.id.top_msg_box);
         bottomMsgBox = mainActivity.findViewById(R.id.bottom_msg_box);
@@ -49,6 +68,8 @@ public class ParkingMapMessageBox {
         parkingInLotButton = mainActivity.findViewById(R.id.parking_in_lot_button);
         curPositionButton = mainActivity.findViewById(R.id.current_position_button);
         addressText=mainActivity.findViewById(R.id.point_address);
+
+        topParkingDataBox = mainActivity.findViewById(R.id.parked_data_top_box);
     }
 
     private void setBoxTouchListener(){
@@ -66,7 +87,9 @@ public class ParkingMapMessageBox {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(mainActivity, NormalParkingActivity.class);
+
                 mainActivity.startActivityForResult(intent, 110);
+                statusChange(PARKED);
             }
         });
         curPositionButton.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +175,7 @@ public class ParkingMapMessageBox {
         loadViews();
         setBoxTouchListener();
         loadAnimation();
+       // statusChange(PARKED);
     }
 
     public void setCurAddress(){

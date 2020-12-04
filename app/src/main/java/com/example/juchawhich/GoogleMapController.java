@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +23,11 @@ public class GoogleMapController implements OnMapReadyCallback {
     private ParkingMapActivity mainActivity;
     private CurrentLocationManager currentLocationManager;
     private GoogleMap map;
+
+    public GoogleMap getMap() {
+        return map;
+    }
+
     private boolean autoMoveToCurPositionSucceeded;
     private Marker curPositionMarker;
 
@@ -65,6 +71,7 @@ public class GoogleMapController implements OnMapReadyCallback {
                 }
             }
         });
+        Log.d("onMapReady", "called");
     }
 
     public GoogleMapController(ParkingMapActivity activity){
