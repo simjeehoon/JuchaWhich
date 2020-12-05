@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "717935927941-8io5e35dsh33f55nejn64dci9h8h5ql8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.firebase",
-            "certificate_hash": "f6ea288db4ec81e6a2e9e7a20fb186f1a8ed0b02"
-          }
-        },
-        {
           "client_id": "717935927941-5tlla3etfchqnkt1mkihkg6d53lqh859.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -74,7 +66,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:717935927941:android:8051ea70e47c834bbbffec",
+        "mobilesdk_app_id": "1:717935927941:android:c2c16c6d501f8d9ebbffec",
         "android_client_info": {
           "package_name": "com.example.juchawhich"
         }
