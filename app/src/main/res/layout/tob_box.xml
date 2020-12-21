@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/top_msg_box"
+        android:id="@+id/no_car_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -13,7 +13,7 @@
         android:layout_marginRight="4dp"
         android:padding="12dp"
         android:background="#DBB"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
@@ -43,25 +43,38 @@
         android:background="#FFF"
         android:visibility="gone">
         <TextView
+            android:id="@+id/when_paked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
             android:text="32분전에 주차함"/>
         <TextView
+            android:id="@+id/fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
             android:text="주차요금 : 2000원"/>
         <TextView
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
             android:text="주차시간"/>
         <TextView
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
             android:text="주차주소"/>
-    </LinearLayout>>
+        <TextView
+            android:id="@+id/memo_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/no_parked_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        />
 
 </FrameLayout>

@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <!--주차 버튼들 -->
             <LinearLayout
@@ -43,7 +43,7 @@
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:background="#FFF"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/point_address"
@@ -65,6 +65,7 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <!-- 주차가 된 상태에서 나타나는 버튼 목록 -->
         <LinearLayout
             android:id="@+id/button_bar_when_parking"
@@ -76,6 +77,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:visibility="gone"
             android:background="#000">
             <LinearLayout
                 android:id="@+id/find_way"

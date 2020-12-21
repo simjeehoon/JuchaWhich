@@ -1,17 +1,21 @@
 package com.example.juchawhich;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.location.LocationRequest;
@@ -22,6 +26,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.GeoPoint;
 
 public class NormalParkingActivity extends AppCompatActivity implements OnMapReadyCallback {
     Location toParkingLocation;
@@ -32,10 +38,30 @@ public class NormalParkingActivity extends AppCompatActivity implements OnMapRea
     View parkingButton;
     View curPositionButton;
 
+    String carName;
+    String memo;
+
     GoogleMap map;
     private Marker curPositionMarker;
 
     TextView addressTextView;
+
+    private void memoDialog(){
+        final EditText editText = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("메모");
+        //builder.setMessage("이름");
+        builder.setView(editText);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                memo = editText.getText().toString();
+            }
+        });
+        builder.setNegativeButton("NO", null);
+        builder.create();
+        builder.show();
+    }
 
     private void setGoogleMap() {
         FragmentManager fragmentManager = getFragmentManager();
@@ -98,12 +124,27 @@ public class NormalParkingActivity extends AppCompatActivity implements OnMapRea
 
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 776){
+            if(resultCode == RESULT_OK){
+                if(data.getBooleanExtra("LOGOUT", false)){
+                    finish();
+                }
+            }
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("debugMsg", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_parking);
 
         setToolbar();
+
+        Intent intent = getIntent();
+        carName = intent.getStringExtra("CAR_NAME");
 
         if(CurrentLocationManager.isLocationAvailable())
             toParkingLocation=CurrentLocationManager.getLastLocation();
@@ -138,7 +179,7 @@ public class NormalParkingActivity extends AppCompatActivity implements OnMapRea
         textMemoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Log.d("buttons","memo1");
+                memoDialog();
             }
         });
         cameraMemoButton.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +191,9 @@ public class NormalParkingActivity extends AppCompatActivity implements OnMapRea
         parkingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GeoPoint geoPoint = new GeoPoint(curPositionMarker.getPosition().latitude, curPositionMarker.getPosition().longitude);
+                String memo = "asdf";
+                ParkingFirebase.getInstance().parking_Info_save(FirebaseAuth.getInstance().getUid(), carName, geoPoint, memo);
                 finish();
             }
         });

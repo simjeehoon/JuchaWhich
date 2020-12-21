@@ -1,12 +1,17 @@
 package com.example.juchawhich;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ParkingMapSlideMenu {
     private Activity mainActivity;
@@ -72,13 +77,15 @@ public class ParkingMapSlideMenu {
         friendsView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(mainActivity.getApplicationContext(), "친구목록 기능", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mainActivity, friend_list.class);
+                mainActivity.startActivity(intent);
             }
         });
         myAccountsView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(mainActivity.getApplicationContext(), "내 계정 기능", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mainActivity, User_screen.class);
+                mainActivity.startActivityForResult(intent,776);
             }
         });
         settingsView.setOnClickListener(new View.OnClickListener(){
@@ -89,6 +96,16 @@ public class ParkingMapSlideMenu {
         });
     }
 
+    void setUserNameAndEmail(){
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+        String pname = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String pemail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        TextView name = mainActivity.findViewById(R.id.user_name);
+        TextView email = mainActivity.findViewById(R.id.user_email);
+        name.setText(pname);
+        email.setText(pemail);
+    }
     public ParkingMapSlideMenu(Activity activity) {
         mainActivity = activity;
         slideMenu = mainActivity.findViewById(R.id.slide_menu);
@@ -100,5 +117,6 @@ public class ParkingMapSlideMenu {
         myAccountsView = mainActivity.findViewById(R.id.my_account);
         settingsView = mainActivity.findViewById(R.id.settings);
         setMenuOption();
+        setUserNameAndEmail();
     }
 }

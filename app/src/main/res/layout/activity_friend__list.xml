@@ -18,19 +18,27 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left|center_vertical"
             android:textSize="20dp"
-            android:text="차량 정보"/>
+            android:text="친구목록"/>
 
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+
+
+
+    <EditText
+        android:id="@+id/editTextTextMultiLine4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="샘플 입니다"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Search"
+        android:inputType="textMultiLine" />
+
+    <ListView
+        android:id="@+id/friend_list1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 
 </LinearLayout>
-

@@ -2,9 +2,11 @@ package com.example.juchawhich;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -19,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AddCarActivity extends AppCompatActivity {
 
@@ -33,6 +36,7 @@ public class AddCarActivity extends AppCompatActivity {
     ActionBar actionBar;
 
     //매니패스트에서 해당 액티비티의 액션바는 제거해야합니다
+
 
     private void setToolbar(){
         toolbar = findViewById(R.id.toolbar);
@@ -70,9 +74,7 @@ public class AddCarActivity extends AppCompatActivity {
                                                  Log.d("car_data", "번호:"+carInfo.carNumber);
                                                  Log.d("car_data", "연료:"+carInfo.fuelType);
                                                  Log.d("car_data", "메모:"+carInfo.carMemo);
-                                                 Intent intent = new Intent();
-                                                 intent.putExtra("RESULT_CAR_INFO", carInfo);
-                                                 setResult(RESULT_OK, intent);
+                                                 ParkingFirebase.getInstance().add_car(FirebaseAuth.getInstance().getUid(), carInfo.carName, carInfo.carNumber, carInfo.fuelType, carInfo.carMemo);
                                                  finish();
                                              }
                                          }
@@ -93,47 +95,6 @@ public class AddCarActivity extends AppCompatActivity {
         });
     }
 
-    public static class CarInfo implements Parcelable {
-        public String carName;
-        public String carNumber;
-        public String fuelType;
-        public String carMemo;
-        public CarInfo(String carName){
-            this.carName=carName;
-        }
-
-        protected CarInfo(Parcel in) {
-            carName = in.readString();
-            carNumber = in.readString();
-            fuelType = in.readString();
-            carMemo = in.readString();
-        }
-
-        public static final Creator<CarInfo> CREATOR = new Creator<CarInfo>() {
-            @Override
-            public CarInfo createFromParcel(Parcel in) {
-                return new CarInfo(in);
-            }
-
-            @Override
-            public CarInfo[] newArray(int size) {
-                return new CarInfo[size];
-            }
-        };
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(carName);
-            dest.writeString(carNumber);
-            dest.writeString(fuelType);
-            dest.writeString(carMemo);
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-    }
 
     public CarInfo getCarInfo(){
         String carNameString = carNameBox.getText().toString();

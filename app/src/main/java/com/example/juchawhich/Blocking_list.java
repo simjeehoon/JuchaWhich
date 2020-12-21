@@ -51,8 +51,14 @@ public class Blocking_list extends AppCompatActivity {
         temp1.load_Block_Friend_list(myuid,new OnInfomationFilledListener() {
             @Override
             public void onInfomationFilled(ArrayList<friend_Infomation> infomation) {
-                for(int i = 0; i < infomation.size(); i++) {
-                    array_mountain.add(infomation.get(i).name+"\n"+infomation.get(i).email);
+                if(infomation != null) {
+                    listView.setAdapter(mAdapter);
+                    for (int i = 0; i < infomation.size(); i++) {
+                        array_mountain.add(infomation.get(i).name + "\n" + infomation.get(i).email);
+
+                    }
+                }
+                else {
 
                 }
             }
@@ -62,7 +68,12 @@ public class Blocking_list extends AppCompatActivity {
 
             }
         });
+
+
+
     }
+
+
 
     private void setToolbar(){
         toolbar = findViewById(R.id.toolbar);
@@ -92,4 +103,4 @@ public class Blocking_list extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-        }
+}

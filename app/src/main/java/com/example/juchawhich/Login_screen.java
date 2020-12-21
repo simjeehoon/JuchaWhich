@@ -2,26 +2,14 @@ package com.example.juchawhich;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.juchawhich.infopushpull;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -32,12 +20,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class Login_screen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+
+
     SignInButton Google_Login;
 
     private static final int RC_SIGN_IN = 1000;
@@ -47,33 +34,34 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login_screen);
 
-        Log.d("loginTest", "log1");
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        Log.d("loginTest", "log2");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        Log.d("loginTest", "log3");
-        mAuth = FirebaseAuth.getInstance();
-        Log.d("loginTest", "log4");
-        Google_Login = findViewById(R.id.Google_Login);
-        Log.d("loginTest", "log5");
 
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null){
+            ParkingMapActivity.shutdown = false;
+            Intent intent = new Intent(this, ParkingMapActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        Google_Login = findViewById(R.id.Google_Login);
         Google_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent,RC_SIGN_IN);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
-        Log.d("loginTest", "log6");
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -81,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
+                ParkingMapActivity.shutdown = false;
                 //구글 로그인 성공해서 파베에 인증
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
@@ -97,18 +86,31 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "인증 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login_screen.this, "인증 실패", Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(LoginActivity.this, "구글 로그인 인증 성공", Toast.LENGTH_SHORT).show();
-                            //Intent intent = new Intent(LoginActivity.this, infopushpull.class);
-                            //startActivity(intent);
+                            ParkingMapActivity.shutdown = false;
+                            Toast.makeText(Login_screen.this, "구글 로그인 인증 성공", Toast.LENGTH_SHORT).show();
+
+                            ParkingFirebase.getInstance().current_User_info_save();
+
+                            ParkingFirebase.getInstance().user_Info_save(FirebaseAuth.getInstance().getUid());
+                            Intent intent = new Intent(Login_screen.this, ParkingMapActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 });
     }
 
-    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

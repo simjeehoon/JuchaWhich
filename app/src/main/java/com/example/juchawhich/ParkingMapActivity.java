@@ -1,5 +1,6 @@
 package com.example.juchawhich;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -9,12 +10,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ParkingMapActivity extends AppCompatActivity {
 
     private ParkingMapSlideMenu parkingMapSlideMenu;
     private ParkingMapMessageBox parkingMapMessageBox;
     private ParkingMapToolbar parkingMapToolbar;
     private GoogleMapController googleMapController;
+
+    public static boolean shutdown  =false;
 
     public ParkingMapSlideMenu getParkingMapSlideMenu(){
         return parkingMapSlideMenu;
@@ -26,10 +31,13 @@ public class ParkingMapActivity extends AppCompatActivity {
 
     public GoogleMapController getGoogleMapController() {return googleMapController; }
 
+    public ParkingMapToolbar getParkingMapToolbar() { return parkingMapToolbar; }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_map);
+
         parkingMapToolbar = new ParkingMapToolbar(this);
         parkingMapSlideMenu = new ParkingMapSlideMenu(this);
         parkingMapMessageBox = new ParkingMapMessageBox(this);
@@ -38,6 +46,12 @@ public class ParkingMapActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            finish();
+        }
+        if(shutdown == true){
+            finish();
+        }
         parkingMapToolbar.renewCarList();
         super.onResume();
     }
@@ -59,6 +73,7 @@ public class ParkingMapActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "종료하려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
                 initTime = System.currentTimeMillis();
             } else {
+                shutdown = true;
                 finish();
             }
         }

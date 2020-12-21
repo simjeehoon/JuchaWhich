@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JuchaWhich</string>
+    <string name="app_name">ParkingWhich</string>
     <string name="main_activity_string">주차 위치 첫 프로젝트</string>
     <string name="myString">테스트</string>
     <string name="normal_parking">일반 주차</string>
