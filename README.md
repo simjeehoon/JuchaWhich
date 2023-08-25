@@ -8,7 +8,7 @@ JuchaWhich
 ## 앱 화면
 
 <center>
-<img src="https://github.com/simjeehoon/JuchaWhich/blob/develop/preview.png?raw=true" title="주차위치 앱 화면" alt="goob"></img><br/>
+<img src="https://github.com/simjeehoon/src_repository/blob/master/JuchaWhich/develop/preview.png?raw=true" title="주차위치 앱 화면" alt="picture"></img><br/>
 </center>
 
 
